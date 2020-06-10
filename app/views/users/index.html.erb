@@ -1,8 +1,22 @@
 <% provide(:title, "All Users") %>
 
-<h1>ユーザー一覧</h1>
+<h1>全てのユーザー</h1>
+
+
+<!--ユーザー検索機能-->
+<div class=" col-md-4 col-md-offset-8">
+<%= form_tag(users_path, method: "get") do %>
+  <%= label_tag :name, "ユーザー名検索", class: "search-label" %>
+  <div class="input-group">
+  <%= text_field_tag :name, params[:name], placeholder: "キーワードを入力..." %>
+  <%= submit_tag "検索", class: "btn-primary" %>
+  </div>
+<% end %>
+</div>
+<!--ユーザー検索機能 ここまで-->
 
 <div class="col-md-10 col-md-offset-1">
+
   <%= will_paginate %>
   <table class="table table-condensed table-hover" id="table-users">
     <thead>
@@ -27,4 +41,5 @@
     
   </table>
   <%= will_paginate %>
+
 </div>

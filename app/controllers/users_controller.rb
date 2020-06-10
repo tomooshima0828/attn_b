@@ -4,10 +4,15 @@ class UsersController < ApplicationController
   before_action :logged_in_user, only: [:index, :show, :edit, :update, :destroy]
   before_action :correct_user, only: [:edit, :update]
   before_action :admin_user, only: :destroy
+  before_action :admin_or_correct_user, only: [:show, :update, :edit_one_month, :update_one_month]
   before_action :set_one_month, only: :show
+  
   
   def index
     @users = User.paginate(page: params[:page])
+    if params[:name].present?
+      @users = @users.get_by_name params[:name]
+    end
   end
   
   def show
@@ -58,7 +63,6 @@ class UsersController < ApplicationController
     end
   end
   
-  
   private
   
     def user_params
@@ -69,6 +73,11 @@ class UsersController < ApplicationController
       params.require(:user).permit(:department, :basic_time, :work_time)
     end
     
-
-  
+    def query
+      if params[:user].present? && params[:user][:name]
+        User.where('name LIKE?', "%#{params[:user][:name]}%")
+      else
+        User.all
+      end
+    end
 end

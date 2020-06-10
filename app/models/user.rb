@@ -1,6 +1,11 @@
 class User < ApplicationRecord
   has_many :attendances, dependent: :destroy
   
+  # ユーザー名による絞り込み
+  scope :get_by_name, ->(name) {
+  where("name like ?", "%#{name}%")
+  }
+  
   attr_accessor :remember_token
   before_save { self.email = email.downcase }
   validates :name, presence: true, length: { maximum: 50 }
@@ -42,4 +47,18 @@ class User < ApplicationRecord
   def forget
     update_attribute(:remember_digest, nil)
   end
+
+
+# ユーザー検索機能
+  # def self.search(search) #ここでのself.はUser.を意味する
+  #   if search
+  #     where(['name LIKE ?', "%#{search}%"]) #検索とnameの部分一致を表示。User.は省略
+  #   else
+  #     all #全て表示。User.は省略
+  #   end
+  # end
+  
+  
+
 end
+
