@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  
+  # ユーザー情報をモデルから取り出す @user = User.find(params[:id])
   before_action :set_user, only: [:show, :edit, :update, :edit_basic_info, :update_basic_info, :destroy]
   before_action :logged_in_user, only: [:show, :edit, :update, :edit_basic_info, :update_basic_info, :destroy]
   before_action :correct_user, only: [:edit, :update]
